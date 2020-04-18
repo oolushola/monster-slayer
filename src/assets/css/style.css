@@ -67,7 +67,7 @@
 }
 
 .btn, btn:focus{
-    padding:10px; font-size:15px; cursor:pointer; font-weight:bold; margin:3px; outline: none;
+    padding:10px; font-size:15px; cursor:pointer; font-weight:bold; margin:3px; outline: none; border-radius:5px; border:none
 }
 .btn-attack{
     background-color:peru
