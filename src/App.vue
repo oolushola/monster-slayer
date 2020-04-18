@@ -16,7 +16,7 @@
         </div>
 
         <div class="placeholders" v-if="!isGameRunning">
-            <button class="btn btn-heal" @click="isGameRunning = !isGameRunning">START NEW GAME</button>
+            <button class="btn btn-heal" @click="startGame">START NEW GAME</button>
         </div>
 
         <div class="placeholders"  v-if="isGameRunning">
@@ -26,7 +26,8 @@
             <button class="btn" @click="giveUp">GIVE UP</button>
         </div>
 
-        <div class="placeholders hide-content">
+        <div class="placeholders hide-content" v-if="turns.length > 1 || userMessage">
+            <h2 v-if="winStatus">{{ winMessage }}</h2>
             <h2>{{ userMessage }}</h2>
             <ul>
               <li v-for="(name, index) in turns" :key="index" :class="{evenClass: index % 2==0, oddClass: index % 2 != 0}">
@@ -48,18 +49,31 @@ export default {
       monsterHealth: 100,
       userHealth: 100,
       turns: [],
-      userMessage: ''
+      userMessage: '',
+      winStatus: false,
+      winMessage: ''
     }
   },
    methods: {
+      startGame() {
+        this.isGameRunning = !this.isGameRunning,
+        this.monsterHealth = 100
+        this.userHealth = 100
+        this.turns = [];
+        this.winMessage = ''
+      },
       attackMonster() {
-      let damage = this.calculateDamage(4, 20)
+      let damage = this.calculateDamage(3, 10)
       this.monsterHealth -= damage 
       this.monsterAttack()
 
       this.turns.unshift({
         hit: 'User hit monster for '+damage
       })
+
+      this.userMessage = ''
+
+      this.checkWin();
 
       },
       specialAttackMonster() {
@@ -69,6 +83,10 @@ export default {
         this.turns.unshift({
           hit: 'User hit monster harder for '+damage
         })
+
+        this.userMessage = ''
+
+        this.checkWin()
         
       },
       heal() {
@@ -79,7 +97,7 @@ export default {
         }
         else{
           this.userMessage = ''
-          let heal = this.calculateDamage(9, 15);
+          let heal = this.calculateDamage(5, 12);
           this.userHealth += heal;
           this.turns.unshift({
             hit: 'User heal for '+heal
@@ -100,6 +118,21 @@ export default {
           hit: 'Monster hit user for '+monsterDamage
         })
       },
+      checkWin() {
+        if(this.userHealth <= 10){
+          this.winMessage = 'Sorry, you just lost to the monster'
+          this.winStatus = !this.winStatus;
+          this.isGameRunning = false;
+          return 
+        } else {
+          if(this.monsterHealth <= 10) {
+            this.winMessage = 'Congratulations! You win.'
+            this.winStatus = !this.winStatus;
+            this.isGameRunning = false;
+            return
+          }
+        }
+      }
       
     }
 }
