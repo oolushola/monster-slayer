@@ -37,6 +37,7 @@
     background-color:#fbfbfb;
     border-radius:10px;
     top:10px;
+    overflow: hidden;
 }
 .user{
     float: left;
@@ -62,11 +63,11 @@
 }
 
 .placeholders{
-    clear:both; position:relative; box-shadow:2px 2px 2px #ccc; margin:auto; text-align:center; top:30px; padding-bottom:10px; margin:30px;
+    clear:both; position:relative; box-shadow:2px 2px 2px #ccc; margin:auto; text-align:center; top:30px; padding-bottom:10px; margin:30px; 
 }
 
-.btn{
-    padding:5px; font-size:15px; cursor:pointer; font-weight:bold; margin:3px;
+.btn, btn:focus{
+    padding:10px; font-size:15px; cursor:pointer; font-weight:bold; margin:3px; outline: none;
 }
 .btn-attack{
     background-color:peru
@@ -79,6 +80,8 @@
 }
 .btn:hover{
     background-color:#fbfbfb;
+    background:#ccc;
+    padding:10px
 }
 .evenClass{
     color:blueviolet
@@ -91,9 +94,10 @@
     padding: 0;
 }
 .placeholders > ul > li {
-    font-size: 10px;
+    font-size: 13px;
     list-style-type: none; 
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    padding-top:10px;
+    padding:10px;
     margin:5px;
+    background:#eee;
 }

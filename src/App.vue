@@ -26,10 +26,12 @@
             <button class="btn" @click="giveUp">GIVE UP</button>
         </div>
 
-        <div class="placeholders">
-            <h2>Winner Message</h2>
+        <div class="placeholders hide-content">
+            <h2>{{ userMessage }}</h2>
             <ul>
-              <li v-for="(name, index) in turns" :key="index" :class="{evenClass: index % 2==0, oddClass: index % 2 != 0}">{{ name.hit }}</li>
+              <li v-for="(name, index) in turns" :key="index" :class="{evenClass: index % 2==0, oddClass: index % 2 != 0}">
+                  <span :style="{ float: 'left', color: '#000'}">{{index+=1}}</span>{{ name.hit }}
+              </li>
             </ul>
         </div>
     </div>
@@ -46,6 +48,7 @@ export default {
       monsterHealth: 100,
       userHealth: 100,
       turns: [],
+      userMessage: ''
     }
   },
    methods: {
@@ -64,12 +67,25 @@ export default {
         this.monsterHealth -= damage;
         this.monsterAttack()
         this.turns.unshift({
-          hit: 'user hit monster harder for '+damage
+          hit: 'User hit monster harder for '+damage
         })
         
       },
       heal() {
-
+        let userHealth = this.userHealth;
+        if(userHealth <= 10 || (userHealth >= 90 && userHealth <= 100)) {
+          this.userMessage = 'Sorry, your energy level is too low/high to heal up'
+          return
+        }
+        else{
+          this.userMessage = ''
+          let heal = this.calculateDamage(9, 15);
+          this.userHealth += heal;
+          this.turns.unshift({
+            hit: 'User heal for '+heal
+          })
+          this.monsterAttack();
+        }
       },
       giveUp() {
         this.isGameRunning = false;
@@ -81,12 +97,10 @@ export default {
         var monsterDamage = this.calculateDamage(5, 12)
         this.userHealth -= monsterDamage
         this.turns.unshift({
-          hit: 'monster hit user for '+monsterDamage
+          hit: 'Monster hit user for '+monsterDamage
         })
-
-        
-
-      }
+      },
+      
     }
 }
 </script>
